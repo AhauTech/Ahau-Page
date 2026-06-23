@@ -1,0 +1,354 @@
+import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./lib/**/*.{ts,tsx}",
+  ],
+  darkMode: "class", 
+  theme: {
+    extend: {
+      colors: {
+        // Base palette — deep editorial dark
+        canvas: {
+          DEFAULT: "#0c0c0e",
+          soft: "#111114",
+          muted: "#18181c",
+        },
+        surface: {
+          DEFAULT: "#1c1c21",
+          raised: "#232329",
+          border: "#2a2a32",
+        },
+        // Accent — electric amber/gold for CTAs and highlights
+        accent: {
+          DEFAULT: "#f0a500",
+          light: "#f5bc40",
+          dim: "#b87d00",
+          muted: "rgba(240,165,0,0.12)",
+        },
+        // Text scale
+        ink: {
+          DEFAULT: "#e8e8ed",
+          secondary: "#9898a8",
+          muted: "#5a5a6a",
+          inverse: "#0c0c0e",
+        },
+        // Category pill colors
+        category: {
+          tech: "#3b82f6",
+          ai: "#8b5cf6",
+          tools: "#10b981",
+          money: "#f59e0b",
+        },
+      },
+      fontFamily: {
+        // Display: Syne — geometric, confident, memorable
+        display: ["Syne", "system-ui", "sans-serif"],
+        // Body: Instrument Serif — editorial, warm, readable
+        body: ["Instrument Serif", "Georgia", "serif"],
+        // Mono: Geist Mono
+        mono: ["Geist Mono", "monospace"],
+      },
+      fontSize: {
+        "2xs": ["0.625rem", { lineHeight: "1rem" }],
+        "display-sm": ["2rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
+        "display-md": ["2.75rem", { lineHeight: "1.1", letterSpacing: "-0.025em" }],
+        "display-lg": ["3.75rem", { lineHeight: "1.05", letterSpacing: "-0.03em" }],
+        "display-xl": ["5rem", { lineHeight: "1", letterSpacing: "-0.035em" }],
+      },
+      spacing: {
+        "18": "4.5rem",
+        "22": "5.5rem",
+        "30": "7.5rem",
+      },
+      maxWidth: {
+        "content": "720px",
+        "wide": "1100px",
+        "full-bleed": "1400px",
+      },
+      borderRadius: {
+        "2xs": "2px",
+        "4xl": "2rem",
+      },
+      boxShadow: {
+        "glow-accent": "0 0 32px rgba(240,165,0,0.15)",
+        "glow-sm": "0 0 12px rgba(240,165,0,0.2)",
+        "card": "0 1px 3px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.3)",
+        "card-hover": "0 2px 6px rgba(0,0,0,0.6), 0 16px 40px rgba(0,0,0,0.4)",
+      },
+      backgroundImage: {
+        "grid-subtle": "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+        "accent-gradient": "linear-gradient(135deg, #f0a500 0%, #f5bc40 100%)",
+        "hero-gradient": "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(240,165,0,0.08) 0%, transparent 70%)",
+      },
+      backgroundSize: {
+        "grid": "40px 40px",
+      },
+      animation: {
+        "fade-up": "fadeUp 0.5s ease forwards",
+        "fade-in": "fadeIn 0.4s ease forwards",
+      },
+      keyframes: {
+        fadeUp: {
+          "0%": { opacity: "0", transform: "translateY(12px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      typography: {
+        ahau: {
+          css: {
+            "--tw-prose-body": "#c8c8d4",
+            "--tw-prose-headings": "#e8e8ed",
+            "--tw-prose-links": "#f0a500",
+            "--tw-prose-bold": "#e8e8ed",
+            "--tw-prose-code": "#f0a500",
+            "--tw-prose-pre-bg": "#1c1c21",
+            "--tw-prose-pre-code": "#e8e8ed",
+            "--tw-prose-quotes": "#9898a8",
+            "--tw-prose-quote-borders": "#f0a500",
+            "--tw-prose-hr": "#2a2a32",
+            "--tw-prose-th-borders": "#2a2a32",
+            "--tw-prose-td-borders": "#2a2a32",
+            fontSize: "1.0625rem",
+            lineHeight: "1.8",
+            maxWidth: "none",
+            "h2, h3, h4": {
+              fontFamily: "Syne, system-ui, sans-serif",
+              fontWeight: "700",
+              letterSpacing: "-0.02em",
+            },
+            a: {
+              fontWeight: "500",
+              textDecorationColor: "rgba(240,165,0,0.4)",
+              "&:hover": {
+                textDecorationColor: "#f0a500",
+              },
+            },
+            "code::before": { content: '""' },
+            "code::after": { content: '""' },
+            code: {
+              backgroundColor: "#1c1c21",
+              padding: "0.15em 0.4em",
+              borderRadius: "4px",
+              fontSize: "0.875em",
+              border: "1px solid #2a2a32",
+            },
+          },
+        },
+      },
+    },
+  },
+  plugins: [typography],
+};
+
+export default config;
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap"); 
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ─────────────────────────────────────────
+   DESIGN TOKENS — Tailwind v4 @theme
+   Genera clases automáticamente para:
+   - color-*  → bg-*, text-*, border-*, etc.
+   - font-*   → font-display, font-body, font-mono
+   ───────────────────────────────────────── */
+@theme {
+  /* Fonts — genera font-display, font-body, font-mono */
+  --font-display: "Syne", system-ui, sans-serif;
+  --font-body:    "Instrument Serif", Georgia, serif;
+  --font-mono:    "Geist Mono", monospace;
+
+  /* Canvas */
+  --color-canvas:       #0c0c0e;
+  --color-canvas-soft:  #111114;
+  --color-canvas-muted: #18181c;
+
+  /* Surface */
+  --color-surface:        #1c1c21;
+  --color-surface-raised: #232329;
+  --color-surface-border: #2a2a32;
+
+  /* Accent */
+  --color-accent:       #f0a500;
+  --color-accent-light: #f5bc40;
+  --color-accent-dim:   #b87d00;
+  --color-accent-muted: rgba(240, 165, 0, 0.12);
+
+  /* Ink (text) */
+  --color-ink:           #e8e8ed;
+  --color-ink-secondary: #9898a8;
+  --color-ink-muted:     #5a5a6a;
+  --color-ink-inverse:   #0c0c0e;
+
+  /* Keyframes */
+  --animate-fade-up: fadeUp 0.5s ease forwards;
+  --animate-fade-in: fadeIn 0.4s ease forwards;
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
+
+/* ─────────────────────────────────────────
+   CUSTOM UTILITIES
+   En v4, las clases que no se generan desde
+   @theme deben declararse con @utility.
+   ───────────────────────────────────────── */
+
+/* Max widths */
+@utility max-w-content    { max-width: 720px; }
+@utility max-w-wide       { max-width: 1100px; }
+@utility max-w-full-bleed { max-width: 1400px; }
+
+/* Font sizes display */
+@utility text-2xs         { font-size: 0.625rem; line-height: 1rem; }
+@utility text-display-sm  { font-size: 2rem;    line-height: 1.15; letter-spacing: -0.02em; }
+@utility text-display-md  { font-size: 2.75rem; line-height: 1.1;  letter-spacing: -0.025em; }
+@utility text-display-lg  { font-size: 3.75rem; line-height: 1.05; letter-spacing: -0.03em; }
+@utility text-display-xl  { font-size: 5rem;    line-height: 1;    letter-spacing: -0.035em; }
+
+/* Shadows */
+@utility shadow-glow-accent { box-shadow: 0 0 32px rgba(240, 165, 0, 0.15); }
+@utility shadow-glow-sm     { box-shadow: 0 0 12px rgba(240, 165, 0, 0.2); }
+@utility shadow-card        { box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.3); }
+@utility shadow-card-hover  { box-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 16px 40px rgba(0,0,0,0.4); }
+
+/* Background images */
+@utility bg-accent-gradient {
+  background-image: linear-gradient(135deg, #f0a500 0%, #f5bc40 100%);
+}
+@utility bg-hero-gradient {
+  background-image: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(240,165,0,0.08) 0%, transparent 70%);
+}
+@utility bg-grid-subtle {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────── */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    font-family: var(--font-body);
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  ::-webkit-scrollbar        { width: 6px; }
+  ::-webkit-scrollbar-track  { background: var(--color-canvas); }
+  ::-webkit-scrollbar-thumb  { background: var(--color-surface-border); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-ink-muted); }
+
+  *:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-accent);
+    border-radius: 4px;
+  }
+}
+
+/* ─────────────────────────────────────────
+   COMPONENTS
+   ───────────────────────────────────────── */
+@layer components {
+  /* Post listing grid */
+  .post-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px)  { .post-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .post-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  /* WordPress HTML content */
+  .wp-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: #c8c8d4;
+    max-width: none;
+  }
+  .wp-content h2,
+  .wp-content h3,
+  .wp-content h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+  }
+  .wp-content h2 { font-size: 1.5rem; }
+  .wp-content h3 { font-size: 1.25rem; }
+  .wp-content p  { margin-bottom: 1.25em; }
+  .wp-content a  {
+    color: var(--color-accent);
+    text-decoration-color: rgba(240, 165, 0, 0.4);
+    font-weight: 500;
+  }
+  .wp-content a:hover { text-decoration-color: var(--color-accent); }
+  .wp-content strong  { color: var(--color-ink); font-weight: 700; }
+  .wp-content ul, .wp-content ol { padding-left: 1.5em; margin-bottom: 1.25em; }
+  .wp-content ul { list-style-type: disc; }
+  .wp-content ol { list-style-type: decimal; }
+  .wp-content li { margin-bottom: 0.4em; }
+  .wp-content blockquote {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1.25em;
+    margin-left: 0;
+    color: var(--color-ink-secondary);
+    font-style: italic;
+  }
+  .wp-content img      { border-radius: 0.75rem; width: 100%; height: auto; margin: 1.5em 0; }
+  .wp-content pre {
+    background: var(--color-surface);
+    border: 1px solid var(--color-surface-border);
+    border-radius: 0.75rem;
+    padding: 1.25em;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    margin-bottom: 1.5em;
+  }
+  .wp-content code {
+    background: var(--color-surface);
+    color: var(--color-accent);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.875em;
+    border: 1px solid var(--color-surface-border);
+    font-family: var(--font-mono);
+  }
+  .wp-content pre code { background: none; border: none; padding: 0; color: var(--color-ink); }
+  .wp-content hr {
+    border-color: var(--color-surface-border);
+    margin: 2.5em 0;
+  }
+  .wp-content table   { width: 100%; font-size: 0.875rem; border-collapse: collapse; margin-bottom: 1.5em; }
+  .wp-content th,
+  .wp-content td      { border: 1px solid var(--color-surface-border); padding: 0.6em 0.9em; text-align: left; }
+  .wp-content th      { background: var(--color-surface); font-family: var(--font-display); font-weight: 600; color: var(--color-ink); }
+}
