@@ -8,7 +8,7 @@ function getWpHostname(): string {
   } catch {
     return "";
   }
-}
+} 
 
 const WP_HOST = getWpHostname();
 
