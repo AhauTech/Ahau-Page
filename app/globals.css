@@ -1,26 +1,317 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap");
+
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─────────────────────────────────────────
+   DESIGN TOKENS — Tailwind v4
+   ───────────────────────────────────────── */
+@theme {
+  /* Fonts */
+  --font-display: "Syne", system-ui, sans-serif;
+  --font-body: "Instrument Serif", Georgia, serif;
+  --font-mono: "Geist Mono", monospace;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Canvas */
+  --color-canvas: #0c0c0e;
+  --color-canvas-soft: #111114;
+  --color-canvas-muted: #18181c;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Surface */
+  --color-surface: #1c1c21;
+  --color-surface-raised: #232329;
+  --color-surface-border: #2a2a32;
+
+  /* Accent */
+  --color-accent: #00b894;
+  --color-accent-light: #00d4aa;
+  --color-accent-dim: #00876e;
+  --color-accent-muted: rgba(0, 184, 148, 0.12);
+
+  /* Ink */
+  --color-ink: #e8e8ed;
+  --color-ink-secondary: #9898a8;
+  --color-ink-muted: #5a5a6a;
+  --color-ink-inverse: #0c0c0e;
+
+  /* Animations */
+  --animate-fade-up: fadeUp 0.5s ease forwards;
+  --animate-fade-in: fadeIn 0.4s ease forwards;
+
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Modo claro — valores por defecto (sin clase .dark) */
+:root:not(.dark) {
+  --color-canvas:        #ffffff;
+  --color-canvas-soft:   #f8f8f8;
+  --color-canvas-muted:  #f0f0f0;
+
+  --color-surface:        #f4f4f5;
+  --color-surface-raised: #ebebed;
+  --color-surface-border: #d4d4d8;
+
+  --color-ink:           #0c0c0e;
+  --color-ink-secondary: #52525b;
+  --color-ink-muted:     #a1a1aa;
+  --color-ink-inverse:   #ffffff;
+}
+
+/* Modo oscuro — activado con clase .dark en <html> */
+.dark {
+  --color-canvas:        #0c0c0e;
+  --color-canvas-soft:   #111114;
+  --color-canvas-muted:  #18181c;
+
+  --color-surface:        #1c1c21;
+  --color-surface-raised: #232329;
+  --color-surface-border: #2a2a32;
+
+  --color-ink:           #e8e8ed;
+  --color-ink-secondary: #9898a8;
+  --color-ink-muted:     #5a5a6a;
+  --color-ink-inverse:   #0c0c0e;
+}
+
+/* ─────────────────────────────────────────
+   UTILITIES (custom)
+   ───────────────────────────────────────── */
+
+/* Layout */
+@utility max-w-content    { max-width: 720px; }
+@utility max-w-wide       { max-width: 1100px; }
+@utility max-w-full-bleed { max-width: 1400px; }
+
+/* Typography */
+@utility text-2xs        { font-size: 0.625rem; line-height: 1rem; }
+@utility text-display-sm { font-size: 2rem; line-height: 1.15; letter-spacing: -0.02em; }
+@utility text-display-md { font-size: 2.75rem; line-height: 1.1; letter-spacing: -0.025em; }
+@utility text-display-lg { font-size: 3.75rem; line-height: 1.05; letter-spacing: -0.03em; }
+@utility text-display-xl { font-size: 5rem; line-height: 1; letter-spacing: -0.035em; }
+
+/* Shadows */
+@utility shadow-glow-accent { box-shadow: 0 0 32px rgba(0, 184, 148, 0.15);  }
+@utility shadow-glow-sm     { box-shadow: 0 0 12px rgba(0, 184, 148, 0.2); }
+@utility shadow-card        { box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.3); }
+@utility shadow-card-hover  { box-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 16px 40px rgba(0,0,0,0.4); }
+
+/* Backgrounds */
+@utility bg-accent-gradient {
+  background-image: linear-gradient(135deg, #00b894 0%, #00d4aa 100%);
+}
+
+@utility bg-hero-gradient {
+  background-image: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0, 184, 148, 0.08) 0%, transparent 70%);
+}
+
+@utility bg-grid-subtle {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────── */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    font-family: var(--font-body); /* ✅ correcto v4 */
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-canvas); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-border);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-muted);
+  }
+
+  *:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-canvas),
+      0 0 0 4px var(--color-accent);
+    border-radius: 4px;
+  }
+}
+
+/* ─────────────────────────────────────────
+   COMPONENTS
+   ───────────────────────────────────────── */
+@layer components {
+
+  .post-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .post-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .post-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .wp-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--color-ink);
+    max-width: none;
+  }
+
+  .wp-content h2,
+  .wp-content h3,
+  .wp-content h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+  }
+
+  .wp-content h2 { font-size: 1.5rem; }
+  .wp-content h3 { font-size: 1.25rem; }
+
+  .wp-content p { margin-bottom: 1.25em; }
+
+  .wp-content a {
+    color: var(--color-accent);
+    text-decoration-color: rgba(240,165,0,0.4);
+    font-weight: 500;
+  }
+
+  .wp-content a:hover {
+    text-decoration-color: var(--color-accent);
+  }
+
+  .wp-content strong {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .wp-content ul,
+  .wp-content ol {
+    padding-left: 1.5em;
+    margin-bottom: 1.25em;
+  }
+
+  .wp-content ul { list-style-type: disc; }
+  .wp-content ol { list-style-type: decimal; }
+
+  .wp-content li { margin-bottom: 0.4em; }
+
+  .wp-content blockquote {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1.25em;
+    color: var(--color-ink-secondary);
+    font-style: italic;
+  }
+
+  .wp-content img {
+    border-radius: 0.75rem;
+    width: 100%;
+    margin: 1.5em 0;
+  }
+
+  .wp-content pre {
+    background: var(--color-surface);
+    border: 1px solid var(--color-surface-border);
+    border-radius: 0.75rem;
+    padding: 1.25em;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  .wp-content code {
+    background: var(--color-surface);
+    color: var(--color-accent);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.875em;
+    border: 1px solid var(--color-surface-border);
+    font-family: var(--font-mono);
+  }
+
+  .wp-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-ink);
+  }
+
+  .wp-content hr {
+    border-color: var(--color-surface-border);
+    margin: 2.5em 0;
+  }
+
+  .wp-content table {
+    width: 100%;
+    font-size: 0.875rem;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+  }
+
+  .wp-content th,
+  .wp-content td {
+    border: 1px solid var(--color-surface-border);
+    padding: 0.6em 0.9em;
+    text-align: left;
+  }
+
+  .wp-content th {
+    background: var(--color-surface);
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  /* ── Reader settings — variables controladas por ReaderSettings.tsx ── */
+  .wp-content {
+    font-size:   var(--reader-font-size,   1.0625rem);
+    font-family: var(--reader-font-family, "Instrument Serif", Georgia, serif);
+    line-height: var(--reader-line-height, 1.8);
+  }
+
+  .wp-content .article-body-inner {
+    max-width: var(--reader-content-width, 720px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Alto contraste */
+  html.high-contrast .wp-content {
+    color: #ffffff;
+    background-color: #000000;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+  }
+
+  html.high-contrast.dark .wp-content {
+    color: #ffffff;
+    background-color: #000000;
+  }
 }
