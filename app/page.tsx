@@ -7,8 +7,9 @@ import { Pagination } from "@/components/ui/Pagination";
 export const revalidate = 3600;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Inicio",
-  description: "Tecnología, IA y recursos para crecer online.",
+  title: "AhauTech — Tecnología, IA y recursos para crecer online",
+  description:
+    "AhauTech: análisis de tecnología, inteligencia artificial, herramientas digitales y estrategias para generar ingresos online. Contenido práctico para desarrolladores y emprendedores.",
   path: "/",
 });
 
