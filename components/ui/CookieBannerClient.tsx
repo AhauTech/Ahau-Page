@@ -16,8 +16,13 @@ export function CookieBannerClient() {
   function accept() {
     localStorage.setItem(COOKIE_KEY, "accepted");
     setVisible(false);
-    // Aquí puedes inicializar Google Analytics u otros scripts
-    // window.gtag?.("consent", "update", { analytics_storage: "granted" });
+
+    // Activa Analytics solo tras consentimiento
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("consent", "update", {
+        analytics_storage: "granted",
+      });
+    }
   }
 
   function reject() {

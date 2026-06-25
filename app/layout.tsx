@@ -26,7 +26,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           id="theme-init"
           strategy="beforeInteractive"
         >{`(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark')})()`}</Script>
-        <script
+        {/* Schema.org JSON-LD */}
+        <Script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -43,6 +44,25 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             }),
           }}
         />
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-T225J8GH72"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics-consent" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            
+            // Deniega por defecto hasta que el usuario acepte
+            gtag('consent', 'default', {
+              analytics_storage: 'denied'
+            });
+
+            gtag('js', new Date());
+            gtag('config', 'G-T225J8GH72');
+          `}
+        </Script>
       </head>
       <body className="bg-canvas text-ink min-h-screen flex flex-col">
         <SiteHeader />
