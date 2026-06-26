@@ -10,7 +10,18 @@ export function CookieBannerClient() {
 
   useEffect(() => {
     const consent = localStorage.getItem(COOKIE_KEY);
-    if (!consent) setVisible(true);
+
+    if (!consent) {
+      setVisible(true);
+    } else if (consent === "accepted") {
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("consent", "update", {
+          analytics_storage: "granted",
+        });
+
+        (window as any).gtag('config', 'G-T225J8GH72');
+      }
+    }
   }, []);
 
   function accept() {
@@ -22,6 +33,8 @@ export function CookieBannerClient() {
       (window as any).gtag("consent", "update", {
         analytics_storage: "granted",
       });
+      // Inicializar GA4 SOLO después del consentimiento
+      (window as any).gtag('config', 'G-T225J8GH72');
     }
   }
 

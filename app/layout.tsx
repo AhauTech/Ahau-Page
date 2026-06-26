@@ -58,9 +58,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             gtag('consent', 'default', {
               analytics_storage: 'denied'
             });
-
-            gtag('js', new Date());
-            gtag('config', 'G-T225J8GH72');
           `}
         </Script>
       </head>
