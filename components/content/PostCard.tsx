@@ -21,6 +21,7 @@ export function PostCard({ post }: Props) {
           <Image
             src={post.image.sourceUrl}
             alt={post.image.altText || post.title}
+            quality={90}
             loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />

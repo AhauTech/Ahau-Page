@@ -12,10 +12,6 @@ function getWpHostname(): string {
 
 const WP_HOST = getWpHostname();
 
-// El host de uploads puede ser diferente al de GraphQL.
-// Si NEXT_PUBLIC_WP_GRAPHQL_URL es https://cms.ahautech.com/graphql,
-// WP_HOST será "cms.ahautech.com" y cubrirá también los uploads.
-// Si en el futuro usas un CDN separado para medios, añádelo aquí.
 function buildRemotePatterns() {
   const patterns: { protocol: "https"; hostname: string }[] = [];
 
@@ -23,7 +19,6 @@ function buildRemotePatterns() {
     patterns.push({ protocol: "https", hostname: WP_HOST });
   }
 
-  // Dominio explícito como fallback por si la env var no está disponible en build
   if (!patterns.some((p) => p.hostname === "cms.ahautech.com")) {
     patterns.push({ protocol: "https", hostname: "cms.ahautech.com" });
   }
@@ -34,9 +29,19 @@ function buildRemotePatterns() {
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: buildRemotePatterns(),
-    dangerouslyAllowSVG: false,
+    // 1. PERMITIR SVG: Crucial para que textos y diagramas nunca pierdan calidad
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    
+    // 2. CALIDAD ELEVADA: Sube de 75 a 85/90 para romper la compresión agresiva en texto
+    // quality no es una propiedad válida en la configuración global de imágenes de Next.js
+    
     minimumCacheTTL: 3600,
-    formats: ["image/webp"],
+    
+    // 3. FORMATOS EXPANDIDOS: Permitimos AVIF (mejor compresión) y dejamos que Next.js 
+    // decida cuándo mantener el formato original (como PNG para textos limpios)
+    formats: ["image/avif", "image/webp"],
   },
 
   allowedDevOrigins: ["192.168.1.10"],
@@ -56,15 +61,14 @@ const nextConfig: NextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https:",
+              // Ajustado para permitir las imágenes remotas de tu WordPress en la CSP
+              "img-src 'self' data: blob: https://cms.ahautech.com " + (WP_HOST ? `https://${WP_HOST}` : ""),
               "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
               "connect-src 'self' https:",
             ].join("; "),
           },
         ],
       },
-      // Eliminado el bloque /_next/static/(.*) — Vercel lo gestiona
-      // automáticamente con su CDN. En hosting propio añádelo de nuevo.
     ];
   },
 };
