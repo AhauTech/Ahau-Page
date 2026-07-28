@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import Script from "next/script";
 import { CookieBanner } from "@/components/ui/CookieBanner";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: {
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SiteFooter />
         <CookieBanner />
         <Analytics />
+        <SpeedInsights/>
       </body>
     </html>
   );
