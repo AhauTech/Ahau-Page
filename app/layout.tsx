@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import Script from "next/script";
 import { CookieBanner } from "@/components/ui/CookieBanner";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: {
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <CookieBanner />
+        <Analytics />
       </body>
     </html>
   );
