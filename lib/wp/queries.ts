@@ -39,8 +39,12 @@ export const GET_POST_BY_SLUG = `
 `;
 
 export const GET_ALL_POST_SLUGS = `
-  query GetAllPostSlugs {
-    posts(first: 1000, where: { status: PUBLISH }) {
+  query GetAllPostSlugs($first: Int = 100, $after: String) {
+    posts(first: $first, after: $after, where: { status: PUBLISH }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       nodes {
         slug
       }
@@ -50,8 +54,12 @@ export const GET_ALL_POST_SLUGS = `
 
 
 export const GET_ALL_CATEGORY_SLUGS = `
-  query GetAllCategorySlugs {
-    categories(first: 100, where: { hideEmpty: true }) {
+  query GetAllCategorySlugs($first: Int = 100, $after: String) {
+    categories(first: $first, after: $after, where: { hideEmpty: true }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       nodes {
         slug
       }

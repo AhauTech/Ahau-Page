@@ -30,8 +30,12 @@ const GET_PAGE_BY_SLUG = `
 `;
 
 const GET_ALL_PAGE_SLUGS = `
-  query GetAllPageSlugs {
-    pages(first: 200, where: { status: PUBLISH }) {
+  query GetAllPageSlugs($first: Int = 100, $after: String) {
+    pages(first: $first, after: $after, where: { status: PUBLISH }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       nodes {
         uri
       }
@@ -91,11 +95,27 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
 }
 
 export async function getAllPageUris(): Promise<string[]> {
-  const data = await wpFetch<{ pages: { nodes: { uri: string }[] } }>(
-    GET_ALL_PAGE_SLUGS,
-    {},
-    86400
-  );
-  // uri en WP viene como "/slug/" — normalizamos
-  return data.pages.nodes.map((n) => n.uri.replace(/^\/|\/$/g, ""));
+  const uris: string[] = [];
+  let after: string | null = null;
+  let hasNextPage = true;
+
+  while (hasNextPage) {
+    const data: {
+      pages: {
+        nodes: { uri: string }[];
+        pageInfo: { hasNextPage: boolean; endCursor: string | null };
+      };
+    } = await wpFetch<{
+      pages: {
+        nodes: { uri: string }[];
+        pageInfo: { hasNextPage: boolean; endCursor: string | null };
+      };
+    }>(GET_ALL_PAGE_SLUGS, { first: 100, after }, 86400);
+
+    uris.push(...data.pages.nodes.map((n) => n.uri.replace(/^\/|\/$/g, "")));
+    hasNextPage = data.pages.pageInfo.hasNextPage;
+    after = data.pages.pageInfo.endCursor;
+  }
+
+  return uris;
 }

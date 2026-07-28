@@ -32,7 +32,7 @@ const FONT_SIZE_MAP: Record<FontSize, string> = {
   xl:   "1.375rem",
 };
 const FONT_FAMILY_MAP: Record<FontFamily, string> = {
-  serif: '"Instrument Serif", Georgia, serif',
+  serif: '"Literata", Georgia, serif',
   sans:  '"Syne", system-ui, sans-serif',
 };
 const LINE_HEIGHT_MAP: Record<LineHeight, string> = {
@@ -194,7 +194,7 @@ function SettingsPanel({
               onClick={() => update("fontFamily", "serif")}
               className="flex-1"
             >
-              <span style={{ fontFamily: "Instrument Serif, serif" }}>Serif</span>
+              <span style={{ fontFamily: "Literata, serif" }}>Serif</span>
             </OptionButton>
             <OptionButton
               active={settings.fontFamily === "sans"}
@@ -404,7 +404,7 @@ export function ReaderSettingsMobile() {
                   onClick={() => update("fontFamily", "serif")}
                   className="flex-1"
                 >
-                  <span style={{ fontFamily: "Instrument Serif, serif" }}>Serif</span>
+                  <span style={{ fontFamily: "Literata, serif" }}>Literata</span>
                 </OptionButton>
                 <OptionButton
                   active={settings.fontFamily === "sans"}

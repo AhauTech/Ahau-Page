@@ -17,13 +17,15 @@ export function PostCard({ post }: Props) {
     <article className="group flex flex-col bg-surface rounded-2xl border border-surface-border overflow-hidden shadow-card hover:shadow-card-hover hover:border-accent/30 transition-all duration-300">
       {/* Thumbnail */}
       {post.image ? (
-        <Link href={`/${post.slug}`} className="block overflow-hidden aspect-video">
-          <Image
+        <Link href={`/${post.slug}`} className="relative block overflow-hidden aspect-video">
+           <Image
             src={post.image.sourceUrl}
             alt={post.image.altText || post.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             quality={90}
             loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </Link>
       ) : (

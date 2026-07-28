@@ -42,6 +42,9 @@ const nextConfig: NextConfig = {
     // 3. FORMATOS EXPANDIDOS: Permitimos AVIF (mejor compresión) y dejamos que Next.js 
     // decida cuándo mantener el formato original (como PNG para textos limpios)
     formats: ["image/avif", "image/webp"],
+
+    // 4. CALIDAD DE IMÁGENES: Ajustamos la calidad de las imágenes generadas por Next.js
+    qualities: [75, 90],
   },
 
   allowedDevOrigins: ["192.168.1.10"],

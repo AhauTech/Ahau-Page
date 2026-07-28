@@ -9,25 +9,51 @@ import {
 } from "./queries";
 import type { Post, Category, WPRawPost, PaginatedPosts, PaginatedCategory, WPSeo, PageInfo } from "./types";
 
+interface PostSlugsResponse {
+  posts: {
+    nodes: { slug: string }[];
+    pageInfo: { hasNextPage: boolean; endCursor: string | null };
+  };
+}
+
+interface CategorySlugsResponse {
+  categories: {
+    nodes: { slug: string }[];
+    pageInfo: { hasNextPage: boolean; endCursor: string | null };
+  };
+}
 // Used in generateStaticParams
 export async function getAllPostSlugs(): Promise<string[]> {
-  const data = await wpFetch<{ posts: { nodes: { slug: string }[] } }>(
-    GET_ALL_POST_SLUGS,
-    {},
-    86400 // 24h — slugs don't change often
-  );
-  return data.posts.nodes.map((n) => n.slug);
+  const slugs: string[] = [];
+  let after: string | null = null;
+  let hasNextPage = true;
+
+  while (hasNextPage) {
+    const data: PostSlugsResponse = await wpFetch(GET_ALL_POST_SLUGS, { first: 100, after }, 86400);
+
+    slugs.push(...data.posts.nodes.map((n) => n.slug));
+    hasNextPage = data.posts.pageInfo.hasNextPage;
+    after = data.posts.pageInfo.endCursor;
+  }
+
+  return slugs;
 }
 
 export async function getAllCategorySlugs(): Promise<string[]> {
-  const data = await wpFetch<{ categories: { nodes: { slug: string }[] } }>(
-    GET_ALL_CATEGORY_SLUGS,
-    {},
-    86400
-  );
-  return data.categories.nodes.map((n) => n.slug);
-}
+  const slugs: string[] = [];
+  let after: string | null = null;
+  let hasNextPage = true;
 
+  while (hasNextPage) {
+    const data: CategorySlugsResponse = await wpFetch(GET_ALL_CATEGORY_SLUGS, { first: 100, after }, 86400);
+
+    slugs.push(...data.categories.nodes.map((n) => n.slug));
+    hasNextPage = data.categories.pageInfo.hasNextPage;
+    after = data.categories.pageInfo.endCursor;
+  }
+
+  return slugs;
+}
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
     const data = await wpFetch<{ post: WPRawPost | null }>(
@@ -64,7 +90,18 @@ export async function getPostsByCategory(
   after?: string
 ): Promise<PaginatedCategory | null> {
   try {
-    const data = await wpFetch<{
+    const data: {
+      category: {
+        name: string;
+        slug: string;
+        description?: string;
+        seo?: WPSeo;
+        posts: {
+          pageInfo: PageInfo;
+          nodes: WPRawPost[];
+        };
+      } | null;
+    } = await wpFetch<{
       category: {
         name: string;
         slug: string;

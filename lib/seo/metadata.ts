@@ -61,7 +61,7 @@ export function buildMetadataFromWPSeo(
   seo: WPSeo,
   path: string = ""
 ): Metadata {
-  const url = seo.canonical ?? `${SITE_URL}${path}`;
+  const url = `${SITE_URL}${path}`; // nunca usar seo.canonical: viene de Yoast/cms.ahautech.com
   const ogImage = seo.opengraphImage?.sourceUrl ?? OG_DEFAULT; // ← siempre hay imagen
 
   return {

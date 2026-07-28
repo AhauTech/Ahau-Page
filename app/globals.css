@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Literata:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Geist+Mono:wght@400;500&display=swap");
 
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
@@ -9,7 +9,7 @@
 @theme {
   /* Fonts */
   --font-display: "Syne", system-ui, sans-serif;
-  --font-body: "Instrument Serif", Georgia, serif;
+  --font-body: "Literata", Georgia, serif;
   --font-mono: "Geist Mono", monospace;
 
   /* Canvas */
@@ -292,7 +292,7 @@
   /* ── Reader settings — variables controladas por ReaderSettings.tsx ── */
   .wp-content {
     font-size:   var(--reader-font-size,   1.0625rem);
-    font-family: var(--reader-font-family, "Instrument Serif", Georgia, serif);
+    font-family: var(--reader-font-family, "Literata", Georgia, serif);
     line-height: var(--reader-line-height, 1.8);
   }
 
