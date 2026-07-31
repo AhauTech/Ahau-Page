@@ -29,7 +29,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
   let hasNextPage = true;
 
   while (hasNextPage) {
-    const data: PostSlugsResponse = await wpFetch(GET_ALL_POST_SLUGS, { first: 100, after }, 86400);
+    const data: PostSlugsResponse = await wpFetch(GET_ALL_POST_SLUGS, { first: 100, after }, 3600);
 
     slugs.push(...data.posts.nodes.map((n) => n.slug));
     hasNextPage = data.posts.pageInfo.hasNextPage;

@@ -30,8 +30,10 @@ export async function POST(request: NextRequest) {
     if (type === "post") {
       revalidatePath(`/${slug}`);
       revalidatePath("/");
+      revalidatePath("/sitemap.xml");
     } else if (type === "page") {
       revalidatePath(`/${slug}`);
+      revalidatePath("/sitemap.xml");
     } else if (type === "category") {
       revalidatePath(`/categoria/${slug}`);
       revalidatePath("/");

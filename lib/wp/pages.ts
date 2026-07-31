@@ -110,7 +110,7 @@ export async function getAllPageUris(): Promise<string[]> {
         nodes: { uri: string }[];
         pageInfo: { hasNextPage: boolean; endCursor: string | null };
       };
-    }>(GET_ALL_PAGE_SLUGS, { first: 100, after }, 86400);
+    }>(GET_ALL_PAGE_SLUGS, { first: 100, after }, 3600);
 
     uris.push(...data.pages.nodes.map((n) => n.uri.replace(/^\/|\/$/g, "")));
     hasNextPage = data.pages.pageInfo.hasNextPage;
