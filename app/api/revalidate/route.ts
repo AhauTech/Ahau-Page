@@ -31,12 +31,15 @@ export async function POST(request: NextRequest) {
       revalidatePath(`/${slug}`);
       revalidatePath("/");
       revalidatePath("/sitemap.xml");
+      revalidateTag("sitemap", { expire: 0 });
     } else if (type === "page") {
       revalidatePath(`/${slug}`);
       revalidatePath("/sitemap.xml");
+      revalidateTag("sitemap", { expire: 0 });
     } else if (type === "category") {
       revalidatePath(`/categoria/${slug}`);
       revalidatePath("/");
+      revalidateTag("sitemap", { expire: 0 });
     }
 
     return NextResponse.json({ revalidated: true, slug, type });

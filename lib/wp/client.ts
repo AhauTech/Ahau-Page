@@ -12,7 +12,8 @@ type GraphQLResponse<T> = {
 export async function wpFetch<T>(
   query: string,
   variables: Record<string, unknown> = {},
-  revalidate: number = 3600
+  revalidate: number = 3600,
+  tags: string[] = []
 ): Promise<T> {
   const res = await fetch(WP_API_URL!, {
     method: "POST",
@@ -20,7 +21,7 @@ export async function wpFetch<T>(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query, variables }),
-    next: { revalidate },
+    next: { revalidate, tags },
   });
 
   if (!res.ok) {
